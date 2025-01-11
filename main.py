@@ -59,40 +59,101 @@ async def search_products(
 
             if not df_sku.empty:
                 html_parts = [
-                    "<style>",
-                    "body { font-family: Arial, sans-serif; background-color: #f4f4f9; margin: 0; padding: 20px; display: flex; justify-content: center; align-items: center; min-height: 100vh; }",
-                    ".card-container { display: flex; justify-content: center; align-items: center;  width: 100%; }",
-                    ".card { border: none; border-radius: 12px; box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1); background-color: #fff; width: 70%; overflow: hidden; transition: transform 0.3s ease; justify-content: center; align-items: center; margin-left:20%; margin-bottom: 30px; padding: 20px}",
-                    ".card:hover { transform: translateY(-10px); }",
-                    ".card img { width: 200px; height: auto; }",
-                    ".card-content { padding: 20px; }",
-                    ".card-table { width: 100%; }",  # New CSS for table layout
-                    ".card-title { font-size: 1.5em; margin-bottom: 15px; color: #333; }",
-                    ".card-text { color: #666; margin-bottom: 15px; line-height: 1.6; }",
-                    ".card-price { font-weight: bold; color: #e63946; font-size: 1.2em; }",
-                    "</style>",
-                    "<div class='card-container'>"
+                    "<!DOCTYPE html>",
+                    "<html lang='en'>",
+                    "<head>",
+                    "    <meta charset='UTF-8'>",
+                    "    <meta name='viewport' content='width=device-width, initial-scale=1.0'>",
+                    "    <title>Watch Information</title>",
+                    "    <link href='https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap' rel='stylesheet'>",
+                    "    <style>",
+                    "        body { font-family: 'Roboto', sans-serif; margin: 20px; background: linear-gradient(to right, #d9a7c7 0%, #fffcdc 100%); min-width: 1043px; }",
+                    "        h1 { text-align: center; color: #333; margin-bottom: 20px; font-size: 25px; }",
+                    "        .container { display: flex; justify-content: center; flex-direction: row; font-size: 12px; flex-wrap: wrap; }",
+                    "        .row { display: flex; flex-direction: column; max-width: 500px; }",
+                    "        .basic-info, .movement, .case, .dial, .view-pictures { flex: 1; padding: 20px; background-color: #fff; transition: transform 0.2s; }",
+                    "        .basic-info:hover, .movement:hover, .case:hover, .dial:hover, .view-pictures:hover { transform: scale(1.02); }",
+                    "        h2 { color: #007BFF; margin-bottom: 15px; font-size: 20px; }",
+                    "        table { width: 100%; border-collapse: collapse; margin-top: 10px; }",
+                    "        th, td { border: 1px solid #ccc; padding: 12px; text-align: left; }",
+                    "        th { background-color: #007BFF; color: white; }",
+                    "        tr:nth-child(even) { background-color: #f2f2f2; }",
+                    "        tr:hover { background-color: #e0e0e0; transition: background-color 0.3s; }",
+                    "        .case_style { display: flex; flex-wrap: wrap; gap: 15px; }",
+                    "        .button { display: inline-block; padding: 10px 20px; margin-top: 10px; background-color: #007BFF; color: white; text-decoration: none; border-radius: 5px; transition: background-color 0.3s; }",
+                    "        .button:hover { background-color: #0056b3; }",
+                    "    </style>",
+                    "</head>",
+                    "<body>"
                 ]
 
                 for _, row in df_sku.iterrows():
-                    html_parts.append("<div class='card'>")
-                    html_parts.append("<div class='card-content'>")
-                    html_parts.append(f"<div class='card-title'> {row.get('Name', '')}</div>")
-                    html_parts.append("<table class='card-table'><tr>")  # Start table row
-                    html_parts.append(f"<td><img src='{row.get('Picture URL', '')}' alt='{row.get('Name', '')}'></td>")  # Picture URL
-                    html_parts.append("<td><div class='card-text'>") 
-                    html_parts.append(f"Reference: {row.get('Reference', '')}<br>")  # Reference
-                    html_parts.append(f"Family: {row.get('Family', '')}<br>")  # Family
-                    html_parts.append(f"Brand: {row.get('Brand', '')}<br>")  # Brand
-                    html_parts.append(f"Price: {row.get('Price in Euro New', '')}<br>")  # Price
-                    html_parts.append(f"Produced: {row.get('Produced', '')}<br>")  # Produced
-                    html_parts.append(f"Materials: {row.get('Case | Materials', '')}<br>")
-                    html_parts.append(f"Glass: {row.get('Case | Glass', '')}")
-                    html_parts.append("</div></td>")  # Close card-text and table cell
-                    html_parts.append("</tr></table>")  # Close table row and table
-                    html_parts.append(f"<div class='card-text'>Description: {row.get('Description', '')}</div>") # Description
-                    html_parts.append("</div></div>")        
-                html_parts.append("</div>")
+                    html_parts.append("    <div class='card'>")
+                    html_parts.append(f"        <h1>{row.get('Name', '')}</h1>")
+                    html_parts.append("        <div class='container'>")
+                    html_parts.append("            <div class='row'>")
+                    html_parts.append("                <div class='basic-info'>")
+                    html_parts.append("                    <h2>Basic Info</h2>")
+                    html_parts.append(f"                    <div>Brand : {row.get('Brand', '')}</div>")
+                    html_parts.append(f"                    <div>Family : {row.get('Family', '')}</div>")
+                    html_parts.append(f"                    <div>Reference : {row.get('Reference', '')}</div>")
+                    html_parts.append(f"                    <div>Produced : {row.get('Produced', '')}</div>")
+                    html_parts.append(f"                    <div>Price : {row.get('Price in Euro New', '')}</div>")
+                    html_parts.append("                </div>")
+                    html_parts.append("                <div class='movement'>")
+                    html_parts.append("                    <h2>Movement</h2>")
+                    html_parts.append(f"                    <div class='card-text'>{row.get('Movement', 'N/A')}</div>")
+                    html_parts.append(f"                    <div class='card-text'>{row.get('Movement 2', 'N/A')}</div>")
+                    html_parts.append("                </div>")
+                    html_parts.append("            </div>")
+                    html_parts.append("            <div class='row'>")
+                    html_parts.append("                <div class='case'>")
+                    html_parts.append("                    <h2>Case</h2>")
+                    html_parts.append("                    <div class='case_style' style='display: flex; flex-wrap: wrap; gap: 10px;'>")
+                    html_parts.append(f"                        <div style='flex: 1 1 calc(40% - 10px);'>Materials : {row.get('Case | Materials', 'N/A')}</div>")
+                    html_parts.append(f"                        <div style='flex: 1 1 calc(30% - 10px);'>Bezel : {row.get('Case | Bezel', 'N/A')}</div>")
+                    html_parts.append(f"                        <div style='flex: 1 1 calc(30% - 10px);'>Glass : {row.get('Case | Glass', 'N/A')}</div>")
+                    html_parts.append(f"                        <div style='flex: 1 1 calc(40% - 10px);'>Back : {row.get('Case | Back', 'N/A')}</div>")
+                    html_parts.append(f"                        <div style='flex: 1 1 calc(30% - 10px);'>Shape : {row.get('Case | Shape', 'N/A')}</div>")
+                    html_parts.append(f"                        <div style='flex: 1 1 calc(30% - 10px);'>Diameter : {row.get('Case | Diameter', 'N/A')}</div>")
+                    html_parts.append(f"                        <div style='flex: 1 1 calc(40% - 10px);'>Lug Width : {row.get('Case | Lug Width', 'N/A')}</div>")
+                    html_parts.append(f"                        <div style='flex: 1 1 calc(30% - 10px);'>W/R : {row.get('Case | W/R', 'N/A')}</div>")
+                    html_parts.append(f"                        <div style='flex: 1 1 calc(30% - 10px);'>Height : {row.get('Case | Height', 'N/A')}</div>")
+                    html_parts.append("                    </div>")
+                    html_parts.append("                </div>")
+                    html_parts.append("                <div class='dial'>")
+                    html_parts.append("                    <h2>Dial</h2>")
+                    html_parts.append("                    <table>")
+                    html_parts.append("                        <tr>")
+                    html_parts.append("                            <th>Nickname</th>")
+                    html_parts.append("                            <th>Color</th>")
+                    html_parts.append("                            <th>Finish</th>")
+                    html_parts.append("                            <th>Indexes</th>")
+                    html_parts.append("                            <th>Hands</th>")
+                    html_parts.append("                        </tr>")
+                    html_parts.append("                        <tr>")
+                    html_parts.append(f"                            <td>{row.get('Dial | Nickname', 'N/A')}</td>")
+                    html_parts.append(f"                            <td>{row.get('Dial | Color', 'N/A')}</td>")
+                    html_parts.append(f"                            <td>{row.get('Dial | Finish', 'N/A')}</td>")
+                    html_parts.append(f"                            <td>{row.get('Dial | Indexes', 'N/A')}</td>")
+                    html_parts.append(f"                            <td>{row.get('Dial | Hands', 'N/A')}</td>")
+                    html_parts.append("                        </tr>")
+                    html_parts.append("                    </table>")
+                    html_parts.append("                </div>")
+                    html_parts.append("            </div>")
+                    html_parts.append("            <div class='row'>")
+                    html_parts.append("                <div class='view-pictures'>")
+                    html_parts.append("                    <h2>View Picture</h2>")
+                    html_parts.append(f"                    <a href={row.get('Picture URL', '#')} class='button'>View Picture</a>")
+                    html_parts.append("                    <h2>View On Google</h2>")
+                    html_parts.append(f"                    <a href={row.get('Page Source', '#')} class='button'>View On Google</a>")
+                    html_parts.append("                </div>")
+                    html_parts.append("            </div>")
+                    html_parts.append("        </div>")
+                    html_parts.append("    </div>")
+
+                html_parts.append("</body>")
+                html_parts.append("</html>")
                 return ''.join(html_parts)
             else:
                 return "No matches found."
